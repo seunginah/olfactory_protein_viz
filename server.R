@@ -2,8 +2,8 @@
 # Define server logic
 server <- function(input, output) {
   # main data table
-  output$main_table = renderDataTable({
-    datatable(data,
+  output$main_table = DT::renderDataTable({
+    datatable(filter_data(input$zone, input$segment, input$protein),
               colnames = c('Protein', 'Zone', 'Segment', 'Area (microns)', 'Std Dev',
                            'Std Error', 'Avg Pixel Intensity', 'Num Pixels', 'Freq_1',
                            'Freq_255'),

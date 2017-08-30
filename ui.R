@@ -5,19 +5,21 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      
       checkboxGroupInput("zone", "Choose a zone:",
-                  choices = c("VZ", "IZ", "DZ")),
+                  choices = c("VZ", "IZ", "DZ"),
+                  selected = "VZ"),
       checkboxGroupInput("segment", "Choose a segment:",
-                  choices = c("1", "2", "10", "11", "12")),
+                  choices = c("1", "2", "10", "11", "12"),
+                  selected = "1"),
       checkboxGroupInput("protein", "Choose a protein", 
-                  choices = c("Protein A", "Protein B"))
+                  choices = c("Bmpr2", "Cdh5"),
+                  selected = "Bmpr2")
     ), # end sidebarPanel
     
     mainPanel(
       tabsetPanel(
         tabPanel("Data Selection",
-                 dataTableOutput("main_table")),
+                 DT::dataTableOutput("main_table")),
         tabPanel("Visualization")
       ) # end tabset panel
     ), # end mainPanel
