@@ -1,15 +1,27 @@
-#
-# 
-# http://shiny.rstudio.com/articles/layout-guide.html
+# UI for Olfactory Protein Viz Project -----------------------------------------
+library(shiny)
 
-shinyUI(
-  dashboardPage(
-    dashboardHeader(title = 'Olfactory Protein Visualization', titleWidth = '300px'),
-    dashboardSidebar(width = '300px',
-                     actionButton('login', label = 'Log In', align = 'center', width = '85px'),
-                     h4(),
-                     h4(textOutput('login_info'), align = 'center')),
-    dashboardBody(
-      ) # end dashboardBody
-    ) # end dashboardPage
-  )
+ui <- fluidPage(
+  titlePanel("Olfactory Protein Visualization"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      
+      checkboxGroupInput("zone", "Choose a zone:",
+                  choices = c("VZ", "IZ", "DZ")),
+      checkboxGroupInput("segment", "Choose a segment:",
+                  choices = c("1", "2", "3", "10", "12")),
+      checkboxGroupInput("protein", "Choose a protein", 
+                  choices = c("Protein A", "Protein B"))
+    ), # end sidebarPanel
+    
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Data Selection"),
+        tabPanel("Visualization")
+      ) # end tabset panel
+    ), # end mainPanel
+    position = "left"
+  ) # end sidebarLayout
+  
+)
