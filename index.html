@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<!-- 3) given an annotated image, create a map using polygon coordinates
+FOR NOW: use the same coordinates for segments, even though they slightly differ across images..
+FOR NOW: pretend the main viewing protein (Bmpr2) and slice (1a) has been selected already -->
+
+<!-- 3) input: image, 
+ output: map with mouseover segments -->
+<img src ="Bmpr2_1a.jpg" alt="Bmpr2_1a" usemap="#Bmpr2_1a" />
+<map name="Bmpr2_1a">
+	<area alt="1" title="1" href="#" shape="poly" coords="254,2,727,271,22,275,5,6" onmouseover="writeText('you have selected segment 1')" />
+	<area alt="2" title="2" href="#" shape="poly" coords="282,5,574,4,728,262" onmouseover="writeText('you have selected segment 2')" />
+	<area alt="3" title="3" href="#" shape="poly" coords="585,4,729,6,733,259" onmouseover="writeText('you have selected segment 3')" />
+	<area alt="4" title="4" href="#" shape="poly" coords="739,7,874,7,739,257" onmouseover="writeText('you have selected segment 4')" />
+	<area alt="5" title="5" href="#" shape="poly" coords="893,7,1177,7,740,269" onmouseover="writeText('you have selected segment 5')" />
+	<area alt="6" title="6" href="#" shape="poly" coords="747,267,1210,5,1360,9,1359,265" onmouseover="writeText('you have selected segment 6')" />
+	<area alt="7" title="7" href="#" shape="poly" coords="1357,285,753,279,1190,527,1360,531" onmouseover="writeText('you have selected segment 7')" />
+	<area alt="8" title="8" href="#" shape="poly" coords="1168,532,744,282,889,525" onmouseover="writeText('you have selected segment 8')" />
+	<area alt="9" title="9" href="#" shape="poly" coords="873,532,740,292,742,527" onmouseover="writeText('you have selected segment 9')" />
+	<area alt="10" title="10" href="#" shape="poly" coords="725,526,728,289,585,524" onmouseover="writeText('you have selected segment 10')" />
+	<area alt="11" title="11" href="#" shape="poly" coords="573,525,709,296,295,531" onmouseover="writeText('you have selected segment 11')" />
+	<area alt="12" title="12" href="#" shape="poly" coords="268,531,708,277,22,287,12,526" onmouseover="writeText('you have selected segment 12')" />
+</map>
+
+<p id="desc">hover over the segments to view histograms of selected proteins in the dorsal (DZ), intermediary (IZ), and ventral (VZ) zones</p>
+
+
+<!-- <div class="chart-example" id="random_chart"><svg></svg></div> -->
+<div class="chart-example" id="segment_hist"><svg></svg></div>
+
+
+<!-- source javascript libraries, scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js" charset="utf-8"></script> -->
+<script src="https://dc-js.github.io/dc.js/js/d3.js"></script>
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script> -->
+<script src="https://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.js"></script> -->
+<script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+
+<!-- <script src="js/bubbleChart.js"></script> -->
+<script>
+
+
+
+function writeText(txt) {
+    document.getElementById("desc").innerHTML = txt;
+}
+
+function createMap(){
+	// given an image and a csv of its hotspot coordinates, automatically create a map
+}
+
+function getCoords(protein, zone, segment){
+	// return coordinates for this area
+}
+
+function getSegmentInfo(protein, zone, segment) {
+	// call a function that filters the dataset 
+	// function should draw histogram, etc
+}
+
+d3.csv('./toy_dataset_long.csv', function(error, data) {
+	if (error) {
+		console.error('Error getting or parsing the data.');
+        throw error;
+    }
+    console.log(data[0]);
+
+    // var random_chart = bubbleChart().width(600).height(600);
+    // d3.select('#random_chart').data(data).call(random_chart);
+    
+	var cf = crossfilter(data),
+	valDim = cf.dimension(function(d) {return +d.pix_value;}),
+	freqDim = cf.dimension(function(d) {return +d.pix_freq;})
+	freqGroup = freqDim.group();
+    // speedSumGroup       = runDimension.group().reduceSum(function(d) {return d.Speed * d.Run / 1000;});
+
+    var segment_hist = dc.barChart("#segment_hist");
+    segment_hist
+    	.width(600)
+    	.height(600)
+    	.x(d3.scale.linear().domain([0,255]))
+	    .renderArea(true)
+	    .brushOn(false)
+	    .renderDataPoints(true)
+	    .clipPadding(10)
+	    .yAxisLabel("pixel frequency")
+	    .dimension(valDim)
+	    .group(freqGroup);
+
+	segment_hist.render();
+
+
+
+    // d3.select('#segment_hist').data(data).call(segment_hist);
+});
+
+</script>
+</html>
+
+
+
