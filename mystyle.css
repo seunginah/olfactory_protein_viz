@@ -1,0 +1,132 @@
+* { 
+margin: 0; 
+padding: 0; 
+ }
+ body { 
+ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+ }
+#page-wrap {
+margin: 50px;
+}
+p {
+margin: 20px 0; 
+}
+td, th {
+padding: 1px 4px;
+}
+table { 
+width: 100%; 
+border-collapse: collapse; 
+}
+
+tr:nth-of-type(odd) { 
+background: #eee; 
+}
+th { 
+background: #333; 
+color: white; 
+font-weight: bold; 
+cursor: s-resize;
+background-repeat: no-repeat;
+    background-position: 3% center;
+}
+td, th { 
+padding: 6px; 
+border: 1px solid #ccc; 
+text-align: left; 
+}
+
+th.des:after {
+  content: "\21E9";
+}
+
+th.aes:after {
+  content: "\21E7";
+}
+
+.line {
+    stroke: #E4002B;
+    fill: none;
+    stroke-width: 3;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 10px;
+    font-family: sans-serif;
+}
+.text-label {
+    font-size: 10px;
+    font-family: sans-serif;
+}
+.dot {
+    stroke: #293b47;
+    fill: #7A99AC;
+}
+.parent {
+  margin-bottom: 15px;
+  padding: 10px;
+  color: #0A416B;
+  clear:both;
+}
+.left, .center, .right{
+  float:left;
+  width:32%; 
+  padding:5px;
+}
+.half{
+  float:left;
+  width:48%; 
+  padding:5px;
+}
+.full{
+  float:left;
+  width:98%; 
+  padding:5px;
+}
+
+h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
+}
+h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+}
+p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+blockquote {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+pre {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 18.5714px;
+}

@@ -4,7 +4,9 @@
 	 <title>Visualizing protein expression in the Olfactory bulb</title>
 	 
 	 <!-- CSS STYLE -->
+	 <link rel="stylesheet" type="text/css" href="./dc.css"/>
   	<link rel="stylesheet" type="text/css" href="./mystyle.css">
+
 
 	<!-- SOURCE JAVASCRIPT LIBRARIES -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script> -->
@@ -24,11 +26,15 @@
 			img_path = './images/Bmpr2/'+txt+'.jpg'
 		    document.getElementById("desc_slice").innerHTML = print_txt;
 		    document.getElementById("view_slice").src = img_path;
+		    // view_data.filter();
+		    // dc.redrawAll();
 		}
 
 		function selectedSegment(txt) {
 			print_txt = 'you have selected segment ' + txt;
 		    document.getElementById("desc_segment").innerHTML = print_txt;
+		    view_data.filter(function(d){return d.segment == +txt;});
+		    dc.redrawAll();
 		}
 	</script>
 </head>
@@ -92,23 +98,28 @@
 <div class="parent">
   <div class = "left"> 
     <p> 
-    	PANE 4: Ventral Zone </br>
-    	Image histogram for all selected proteins in the VZ </br></br>
+    	<!-- PANE 4: Ventral Zone </br>
+    	Image histogram for all selected proteins in the VZ </br></br> -->
+    	PANE 4: Select the zone to view </br>
+    	<div id="zone_row">
+    		<a class="reset" href="javascript:zone_row.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+    	</br>
+    	</div></br>
     	
     </p>
   </div>
   <div class = "center">
   	<p> 
-  		PANE 5: Intermediate Zone </br>
-  	    Image histogram for all selected proteins in the IZ </br></br>
+  		<!-- PANE 5: Intermediate Zone </br> -->
+  		PANE 5: Image histogram </br>
+  	    Image histogram for all selected proteins in the current zone </br></br>
       <div id="segment_hist"></div></br>
      </p>
   </div>
   <div class = "right">
   	<p> 
-  		PANE 6: Dorsal Zone </br>
-  	    Image histogram for all selected proteins in the DZ </br></br>
-      <div id="veh_per_acc2"></div></br>
+	<!-- PANE 6: Dorsal Zone </br>
+  	    Image histogram for all selected proteins in the DZ </br></br> -->
      </p>
   </div>
   <div style="clear:both;"></div>
@@ -120,7 +131,8 @@
     <p> 
     	PANE 7: View the underlying data plotted in Panes 4,5,6 </br>
     	Click the table header to sort data according to that column
-    	<div id="page-wrap"></div>
+    	<!-- <div id="page-wrap"></div> -->
+    	<div id="view_data"></div>
     </p>
   </div>
   <div style="clear:both;"></div>
