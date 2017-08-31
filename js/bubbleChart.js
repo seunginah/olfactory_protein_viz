@@ -3,6 +3,7 @@ function bubbleChart() {
         height = 960,
         maxRadius = 6;
         columnForColors = "protein",
+        columnForLabel = "zone",
         columnForRadius = "avg_pix_intensity";
 
     function chart(selection) {
@@ -59,7 +60,7 @@ function bubbleChart() {
             })
             .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
             .on("mouseover", function(d) {
-                tooltip.html(d[columnForColors] + "<br>" + d.title + "<br>" + d[columnForRadius] + " hearts");
+                tooltip.html(d[columnForColors] + "<br>" + d[columnForLabel] + "<br>" + d[columnForRadius] + " " + columnForRadius);
                 return tooltip.style("visibility", "visible");
             })
             .on("mousemove", function() {
@@ -100,6 +101,14 @@ function bubbleChart() {
             return columnForRadius;
         }
         columnForRadius = value;
+        return chart;
+    };  
+
+    chart.columnForLabel = function(value) {
+        if (!arguments.columnForLabel) {
+            return columnForLabel;
+        }
+        columnForLabel = value;
         return chart;
     };
 
