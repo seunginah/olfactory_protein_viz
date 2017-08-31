@@ -2,9 +2,11 @@
 <html>
 <head>
 	 <title>Visualizing protein expression in the Olfactory bulb</title>
-	 <link rel="stylesheet" type="text/css" href="https://dc-js.github.io/dc.js/css/dc.css" />
+	 
+	 <!-- CSS STYLE -->
+  	<link rel="stylesheet" type="text/css" href="./mystyle.css">
 
-	<!-- source javascript libraries, scripts -->
+	<!-- SOURCE JAVASCRIPT LIBRARIES -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script> -->
 	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js" charset="utf-8"></script> -->
 	<script src="https://dc-js.github.io/dc.js/js/d3.js"></script>
@@ -14,147 +16,24 @@
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.js"></script>
 	<script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
-
-	<!-- <script src="js/bubbleChart.js"></script> -->
-	<script src="js/rawDataTable.js"></script>
-
-  <!-- CSS STYLE -->
-  <style>
-  * { 
-	  margin: 0; 
-	  padding: 0; 
-     }
-     body { 
-	   font: 14px/1.4 Georgia, Serif; 
-     }
-    #page-wrap {
-	  margin: 50px;
-    }
-    p {
-	 margin: 20px 0; 
-    }
-    td, th {
-	  padding: 1px 4px;
-	}
-	table { 
-		width: 100%; 
-		border-collapse: collapse; 
-	}
-
-	tr:nth-of-type(odd) { 
-		background: #eee; 
-	}
-	th { 
-		background: #333; 
-		color: white; 
-		font-weight: bold; 
-		cursor: s-resize;
-		background-repeat: no-repeat;
-        background-position: 3% center;
-	}
-	td, th { 
-		padding: 6px; 
-		border: 1px solid #ccc; 
-		text-align: left; 
-	}
 	
-	th.des:after {
-      content: "\21E9";
-    }
-    
-    th.aes:after {
-      content: "\21E7";
-    }
+	<!-- OUR OWN JAVASCRIPT VARIABLES AND FUNCTIONS -->
+	<script>
+		function selectedSlice(txt) {
+			print_txt = 'you have selected slice ' + txt;
+			img_path = './images/Bmpr2/'+txt+'.jpg'
+		    document.getElementById("desc_slice").innerHTML = print_txt;
+		    document.getElementById("view_slice").src = img_path;
+		}
 
-    .line {
-        stroke: #E4002B;
-        fill: none;
-        stroke-width: 3;
-    }
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: black;
-        shape-rendering: crispEdges;
-    }
-    .axis text {
-        font-size: 10px;
-        font-family: sans-serif;
-    }
-    .text-label {
-        font-size: 10px;
-        font-family: sans-serif;
-    }
-    .dot {
-        stroke: #293b47;
-        fill: #7A99AC;
-    }
-    .parent {
-      margin-bottom: 15px;
-      padding: 10px;
-      color: #0A416B;
-      clear:both;
-    }
-    .left, .center, .right{
-      float:left;
-      width:32%; 
-      padding:5px;
-    }
-    .half{
-      float:left;
-      width:48%; 
-      padding:5px;
-    }
-    .full{
-      float:left;
-      width:98%; 
-      padding:5px;
-    }
-
-    h1 {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 24px;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: 500;
-      line-height: 26.4px;
-    }
-    h3 {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: 500;
-      line-height: 15.4px;
-    }
-    p {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: 400;
-      line-height: 20px;
-    }
-    blockquote {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 21px;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: 400;
-      line-height: 30px;
-    }
-    pre {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 13px;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: 400;
-      line-height: 18.5714px;
-    }
-	</style>
+		function selectedSegment(txt) {
+			print_txt = 'you have selected segment ' + txt;
+		    document.getElementById("desc_segment").innerHTML = print_txt;
+		}
+	</script>
 </head>
 
-
+<body>
 <!-- TOP ROW -->
 <div class="parent">
   <div class="half">
@@ -261,136 +140,10 @@
  -->
 <!-- <div class="chart-example" id="segment_hist"><svg></svg></div> -->
 
-<script>
+<!-- once the HTML elements are set up, run the javascript code, which i've isolated into js/main.js -->
+<script src="js/main.js"></script>
 
-function selectedSlice(txt) {
-	print_txt = 'you have selected slice ' + txt;
-	img_path = './images/Bmpr2/'+txt+'.jpg'
-    document.getElementById("desc_slice").innerHTML = print_txt;
-    document.getElementById("view_slice").src = img_path;
-}
-
-function selectedSegment(txt) {
-	print_txt = 'you have selected segment ' + txt;
-    document.getElementById("desc_segment").innerHTML = print_txt;
-}
-
-// function createMap(){
-// 	// given an image and a csv of its hotspot coordinates, automatically create a map
-// }
-
-// function getCoords(protein, zone, segment){
-// 	// return coordinates for this area
-// }
-
-// function getSegmentInfo(protein, zone, segment) {
-// 	// call a function that filters the dataset 
-// 	// function should draw histogram, etc
-
-// }
-
-var segment_hist = dc.barChart("#segment_hist");
-d3.csv('./toy_dataset_long.csv', function(error, data) {
-	if (error) {
-		console.error('Error getting or parsing the data.');
-        throw error;
-    }
-    console.log(data[0]);
-
-    // var random_chart = bubbleChart().width(600).height(600);
-    // d3.select('#random_chart').data(data).call(random_chart);
-
-    // create "dimensions"
-    var cf = crossfilter(data),
-    pixValueDim = cf.dimension(function (d) { return d.pix_value; }),
-    pixFreqDim = cf.dimension(function (d) { return d.pix_freq; }),
-    proteinDim = cf.dimension(function (d) { return d.protein; }),
-    zoneDim = cf.dimension(function (d) { return d.zone; }),
-    proteinGroup = proteinDim.group(),
-    pixValueGroup = pixValueDim.group();
-
-    console.log("cf.size(): ", cf.size())
-    console.log(pixValueDim.top(10))
-    console.log(pixValueGroup.all())
-    console.log(proteinGroup.all())
-    console.log(pixValueGroup.top(10))
-
-    // given the pixel value as a dimension, return pixel frequency
-    var valFreq = pixValueGroup.reduceSum(function(d) {return d.pix_freq; });
-
-    // console.log(valFreq.value())
-
-	segment_hist
-    	.width(600)
-    	.height(400)
-    	.x(d3.scale.linear().domain([0,255]))
-	    .brushOn(false)
-	    .xAxisLabel("pixel value")
-	    .yAxisLabel("frequency")
-	    .dimension(pixValueDim)
-	    .group(valFreq)
-	    .elasticY(true)
-	    .on('renderlet', function(chart) {
-	        chart.selectAll('rect').on("click", function(d) {
-	            console.log("click!", d);
-	        });
-	    });
-
-	    segment_hist.render();
-
-
-
-    // d3.select('#segment_hist').data(data).call(segment_hist);
-
-
-    // data table
-
-    var sortAscending = true;
-		  var table = d3.select('#page-wrap').append('table');
-		  var titles = d3.keys(data[0]);
-
-	var headers = table.append('thead').append('tr')
-		                   .selectAll('th')
-		                   .data(titles).enter()
-		                   .append('th')
-		                   .text(function (d) {
-			                    return d;
-		                    })
-		                   .on('click', function (d) {
-		                	   headers.attr('class', 'header');
-		                	   
-		                	   if (sortAscending) {
-		                	     rows.sort(function(a, b) { return b[d] < a[d]; });
-		                	     sortAscending = false;
-		                	     this.className = 'aes';
-		                	   } else {
-		                		 rows.sort(function(a, b) { return b[d] > a[d]; });
-		                		 sortAscending = true;
-		                		 this.className = 'des';
-		                	   }
-		                	   
-		                   });
-		  
-		  var rows = table.append('tbody').selectAll('tr')
-		               .data(data).enter()
-		               .append('tr');
-
-		  rows.selectAll('td')
-		    .data(function (d) {
-		    	return titles.map(function (k) {
-		    		return { 'value': d[k], 'name': k};
-		    	});
-		    }).enter()
-		    .append('td')
-		    .attr('data-th', function (d) {
-		    	return d.name;
-		    })
-		    .text(function (d) {
-		    	return d.value;
-		    });
-});
-
-</script>
+</body>
 </html>
 
 
