@@ -21,51 +21,76 @@
 	
 	<!-- OUR OWN JAVASCRIPT VARIABLES AND FUNCTIONS -->
 	<script>
+	var selected_protein = 'Bmpr2';
+		function selectedProtein(txt){
+			print_txt = 'you have selected protein ' + txt;
+			document.getElementById("desc_protein").innerHTML = print_txt;
+			// update global variable
+			selected_protein = txt;
+
+		}
 		function selectedSlice(txt) {
 			print_txt = 'you have selected slice ' + txt;
-			img_path = './images/Bmpr2/'+txt+'.jpg'
 		    document.getElementById("desc_slice").innerHTML = print_txt;
+			// update image shown in PANE 2
+			img_path = './images/'+selected_protein+'/'+selected_protein+'_'+txt+'.jpg'
 		    document.getElementById("view_slice").src = img_path;
-		    // view_data.filter();
-		    // dc.redrawAll();
+		    // filter for all rows where slice 
+		    view_data.filter(function(d){return d.image == txt;});
+		    dc.redrawAll();
 		}
 
 		function selectedSegment(txt) {
-			print_txt = 'you have selected segment ' + txt;
+			print_txt = 'you have selected ' + txt;
 		    document.getElementById("desc_segment").innerHTML = print_txt;
-		    view_data.filter(function(d){return d.segment == +txt;});
+		    view_data.filter(function(d){return d.segment == txt;});
 		    dc.redrawAll();
 		}
 	</script>
 </head>
 
 <body>
-<!-- TOP ROW -->
+
+<!-- TOP ROWS -->
+
 <div class="parent">
-  <div class="half">
+  <div class = "full"> 
+    <p> 
+    	PANE 0: ingest data </br>
+    	<p id="desc_protein">select protein to view images of</p></br>
+    </p>
+  </div>
+  <div style="clear:both;"></div>
+</div>
+
+
+<div class="parent">
+  <div class="full">
     <p>
-    	PANE 1: select the slice to view for this protein </br>
-    	<img src ="./images/Bmpr2/Bmpr2_1a.jpg" alt="Bmpr2_1a" width="200" onmouseover="selectedSlice('Bmpr2_1a')" />
-    	<img src ="./images/Bmpr2/Bmpr2_2a.jpg" alt="Bmpr2_2a" width="200" onmouseover="selectedSlice('Bmpr2_2a')" />    	
-    	<img src ="./images/Bmpr2/Bmpr2_3a.jpg" alt="Bmpr2_3a" width="200" onmouseover="selectedSlice('Bmpr2_3a')" />
-    	</br>
-    	<img src ="./images/Bmpr2/Bmpr2_4a.jpg" alt="Bmpr2_4a" width="200" onmouseover="selectedSlice('Bmpr2_4a')" />
-    	<img src ="./images/Bmpr2/Bmpr2_5a.jpg" alt="Bmpr2_5a" width="200" onmouseover="selectedSlice('Bmpr2_5a')" />    	
-    	<img src ="./images/Bmpr2/Bmpr2_6a.jpg" alt="Bmpr2_6a" width="200" onmouseover="selectedSlice('Bmpr2_6a')" />
-    	</br>
-    	<img src ="./images/Bmpr2/Bmpr2_7a.jpg" alt="Bmpr2_4a" width="200" onmouseover="selectedSlice('Bmpr2_7a')" />
-    	<img src ="./images/Bmpr2/Bmpr2_8a.jpg" alt="Bmpr2_5a" width="200" onmouseover="selectedSlice('Bmpr2_8a')" />    	
-    	<img src ="./images/Bmpr2/Bmpr2_9a.jpg" alt="Bmpr2_6a" width="200" onmouseover="selectedSlice('Bmpr2_9a')" />
-    	</br>
-    	<img src ="./images/Bmpr2/Bmpr2_10a.jpg" alt="Bmpr2_4a" width="200" onmouseover="selectedSlice('Bmpr2_10a')" />
-    	<img src ="./images/Bmpr2/Bmpr2_11a.jpg" alt="Bmpr2_5a" width="200" onmouseover="selectedSlice('Bmpr2_11a')" />
+    	PANE 1: select the slice to view </br>
+    	<p id="desc_slice">hover over the slices</p></br>
+    	<img src ="./images/Bmpr2/Bmpr2_1a.jpg" alt="Bmpr2_1a" width="120" onmouseover="selectedSlice('1a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_2a.jpg" alt="Bmpr2_2a" width="120" onmouseover="selectedSlice('2a')" />    	
+    	<img src ="./images/Bmpr2/Bmpr2_3a.jpg" alt="Bmpr2_3a" width="120" onmouseover="selectedSlice('3a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_4a.jpg" alt="Bmpr2_4a" width="120" onmouseover="selectedSlice('4a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_5a.jpg" alt="Bmpr2_5a" width="120" onmouseover="selectedSlice('5a')" />    	
+    	<img src ="./images/Bmpr2/Bmpr2_6a.jpg" alt="Bmpr2_6a" width="120" onmouseover="selectedSlice('6a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_7a.jpg" alt="Bmpr2_4a" width="120" onmouseover="selectedSlice('7a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_8a.jpg" alt="Bmpr2_5a" width="120" onmouseover="selectedSlice('8a')" />    	
+    	<img src ="./images/Bmpr2/Bmpr2_9a.jpg" alt="Bmpr2_6a" width="120" onmouseover="selectedSlice('9a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_10a.jpg" alt="Bmpr2_4a" width="120" onmouseover="selectedSlice('10a')" />
+    	<img src ="./images/Bmpr2/Bmpr2_11a.jpg" alt="Bmpr2_5a" width="120" onmouseover="selectedSlice('11a')" />
     	</br>
     </p>
-    <p id="desc_slice">hover over the slices</p> 
   </div>
-  <div class="half">
+ <div style="clear:both;"></div>
+</div>
+
+<div class="parent">
+  <div class="full">
     <p>
-    	PANE 2: view the slice, hover over the segments to view histograms of selected proteins in the dorsal (DZ), intermediary (IZ), and ventral (VZ) zones
+    	PANE 2: select the segment to visualize</br>
+    	<p id="desc_segment">hover over the segments to view histograms of selected proteins in the dorsal (DZ), intermediary (IZ), and ventral (VZ) zones</p></br>
     </p>
     <!-- 3) given an annotated slice, create a map using polygon coordinates
 	FOR NOW: use the same coordinates for segments, even though they slightly differ across images..
@@ -75,20 +100,20 @@
 	 output: map with mouseover segments -->
 	<img src ="./images/Bmpr2/Bmpr2_1a.jpg" id="view_slice" alt="Bmpr2_1a" usemap="#slice_segments"/>
 	<map name="slice_segments">
-		<area alt="1" title="1" href="#" shape="poly" coords="254,2,727,271,22,275,5,6" onmouseover="selectedSegment('1')" />
-		<area alt="2" title="2" href="#" shape="poly" coords="282,5,574,4,728,262" onmouseover="selectedSegment('2')" />
-		<area alt="3" title="3" href="#" shape="poly" coords="585,4,729,6,733,259" onmouseover="selectedSegment('3')" />
-		<area alt="4" title="4" href="#" shape="poly" coords="739,7,874,7,739,257" onmouseover="selectedSegment('4')" />
-		<area alt="5" title="5" href="#" shape="poly" coords="893,7,1177,7,740,269" onmouseover="selectedSegment('5')" />
-		<area alt="6" title="6" href="#" shape="poly" coords="747,267,1210,5,1360,9,1359,265" onmouseover="selectedSegment('6')" />
-		<area alt="7" title="7" href="#" shape="poly" coords="1357,285,753,279,1190,527,1360,531" onmouseover="selectedSegment('7')" />
-		<area alt="8" title="8" href="#" shape="poly" coords="1168,532,744,282,889,525" onmouseover="selectedSegment('8')" />
-		<area alt="9" title="9" href="#" shape="poly" coords="873,532,740,292,742,527" onmouseover="selectedSegment('9')" />
-		<area alt="10" title="10" href="#" shape="poly" coords="725,526,728,289,585,524" onmouseover="selectedSegment('10')" />
-		<area alt="11" title="11" href="#" shape="poly" coords="573,525,709,296,295,531" onmouseover="selectedSegment('11')" />
-		<area alt="12" title="12" href="#" shape="poly" coords="268,531,708,277,22,287,12,526" onmouseover="selectedSegment('12')" />
+		<area alt="1" title="1" href="#" shape="poly" coords="254,2,727,271,22,275,5,6" onmouseover="selectedSegment('SEGMENT 1')" />
+		<area alt="2" title="2" href="#" shape="poly" coords="282,5,574,4,728,262" onmouseover="selectedSegment('SEGMENT 2')" />
+		<area alt="3" title="3" href="#" shape="poly" coords="585,4,729,6,733,259" onmouseover="selectedSegment('SEGMENT 3')" />
+		<area alt="4" title="4" href="#" shape="poly" coords="739,7,874,7,739,257" onmouseover="selectedSegment('SEGMENT 4')" />
+		<area alt="5" title="5" href="#" shape="poly" coords="893,7,1177,7,740,269" onmouseover="selectedSegment('SEGMENT 5')" />
+		<area alt="6" title="6" href="#" shape="poly" coords="747,267,1210,5,1360,9,1359,265" onmouseover="selectedSegment('SEGMENT 6')" />
+		<area alt="7" title="7" href="#" shape="poly" coords="1357,285,753,279,1190,527,1360,531" onmouseover="selectedSegment('SEGMENT 7')" />
+		<area alt="8" title="8" href="#" shape="poly" coords="1168,532,744,282,889,525" onmouseover="selectedSegment('SEGMENT 8')" />
+		<area alt="9" title="9" href="#" shape="poly" coords="873,532,740,292,742,527" onmouseover="selectedSegment('SEGMENT 9')" />
+		<area alt="10" title="10" href="#" shape="poly" coords="725,526,728,289,585,524" onmouseover="selectedSegment('SEGMENT 10')" />
+		<area alt="11" title="11" href="#" shape="poly" coords="573,525,709,296,295,531" onmouseover="selectedSegment('SEGMENT 11')" />
+		<area alt="12" title="12" href="#" shape="poly" coords="268,531,708,277,22,287,12,526" onmouseover="selectedSegment('SEGMENT 12')" />
 	</map>
-	<p id="desc_segment">hover over the segments to view histograms of selected proteins in the dorsal (DZ), intermediary (IZ), and ventral (VZ) zones</p>
+	
   </div>
   <div style="clear:both;"></div>
 </div>
@@ -96,7 +121,7 @@
 
 <!-- MIDDLE ROW -->
 <div class="parent">
-  <div class = "left"> 
+  <div class = "half"> 
     <p> 
     	<!-- PANE 4: Ventral Zone </br>
     	Image histogram for all selected proteins in the VZ </br></br> -->
@@ -104,22 +129,15 @@
     	<div id="zone_row">
     		<a class="reset" href="javascript:zone_row.filterAll();dc.redrawAll();" style="display: none;">reset</a>
     	</br>
-    	</div></br>
-    	
+    	</div>
     </p>
   </div>
-  <div class = "center">
+  <div class = "half">
   	<p> 
   		<!-- PANE 5: Intermediate Zone </br> -->
   		PANE 5: Image histogram </br>
   	    Image histogram for all selected proteins in the current zone </br></br>
       <div id="segment_hist"></div></br>
-     </p>
-  </div>
-  <div class = "right">
-  	<p> 
-	<!-- PANE 6: Dorsal Zone </br>
-  	    Image histogram for all selected proteins in the DZ </br></br> -->
      </p>
   </div>
   <div style="clear:both;"></div>
@@ -129,28 +147,13 @@
 <div class="parent">
   <div class = "full"> 
     <p> 
-    	PANE 7: View the underlying data plotted in Panes 4,5,6 </br>
-    	Click the table header to sort data according to that column
+    	PANE 7: View the underlying data plotted in Pane 5 </br>
     	<!-- <div id="page-wrap"></div> -->
     	<div id="view_data"></div>
     </p>
   </div>
   <div style="clear:both;"></div>
 </div>
-
-<!-- RANDOM ROW -->
-<!-- <div class="parent">
-  <div class = "left">
-  	<p> 
-  		PANE 8:  </br>
-  	    A random bubblechart color: protein, size of bubble: average pixel intensity </br></br>
-    	<div class="chart-example" id="random_chart"><svg></svg></div>   
-     </p>
-  </div>
-  <div style="clear:both;"></div>
-</div>
- -->
-<!-- <div class="chart-example" id="segment_hist"><svg></svg></div> -->
 
 <!-- once the HTML elements are set up, run the javascript code, which i've isolated into js/main.js -->
 <script src="js/main.js"></script>

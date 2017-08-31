@@ -1,6 +1,5 @@
 // Create chart objects associated with the container elements identified by the css selector. Note: It is often a good idea to have these objects accessible at the global scope so that they can be modified or filtered by other page controls.
 var segment_hist = dc.barChart("#segment_hist");
-
 var zone_row = dc.rowChart('#zone_row');
 var view_data = dc.dataTable('#view_data');
 
@@ -16,12 +15,29 @@ var view_data = dc.dataTable('#view_data');
 // var nasdaqCount = dc.dataCount('.dc-data-count');
 // var nasdaqTable = dc.dataTable('.dc-data-table');
 
-d3.csv('../toy_dataset_long.csv', function(error, data) {
+d3.csv('../Final_dataset.csv', function(error, data) {
 	if (error) {
 		console.error('Error getting or parsing the data.');
         throw error;
     }
-    console.log(data[0]);
+    console.log('RAW: ', data[0]);
+
+    var dateFormat = d3.time.format('%m/%d/%Y');
+    var numberFormat = d3.format('.2f');
+
+    data.forEach(function (d) {
+        d.row_id = +d.row_id;
+        d.row_index = +d.row_index;
+        d.area = +d.area;
+        d.std_dev = +d.std_dev;
+        d.std_error = +d.std_error;
+        d.avg_pix_intensity = +d.avg_pix_intensity;
+        d.num_pix = +d.num_pix;
+        d.pix_value = +d.pix_value;
+        d.pix_freq = +d.pix_freq;
+    });
+
+    console.log('CLEANED: ', data[0]);
 
     // create "dimensions"
     var cf = crossfilter(data),
@@ -51,12 +67,10 @@ d3.csv('../toy_dataset_long.csv', function(error, data) {
 
     // this row chart allows filtering of zones until i figure out how to view them all
     zone_row
-        .width(400)
         .height(400)
         .margins({top: 20, left: 10, right: 10, bottom: 20})
         .group(zoneGroup)
         .dimension(zoneDim)
-        // .ordinalColors(['#3182bd', '#9ecae1', '#dadaeb'])
         .label(function (d) {
             return d.key;
         })
@@ -70,7 +84,7 @@ d3.csv('../toy_dataset_long.csv', function(error, data) {
 
     // view image histogram (it's actually implemented as a bar chart tho)
 	segment_hist
-    	.width(600)
+    	.width(700)
     	.height(400)
     	.x(d3.scale.linear().domain([0,255]))
 	    .brushOn(false)
@@ -95,7 +109,8 @@ d3.csv('../toy_dataset_long.csv', function(error, data) {
     view_data
 	    .dimension(proteinSliceSegment)
 	    .group(function (d) { return d.protein })
-	    .columns(['protein','image','zone','segment','area','std_dev','std_error','avg_pix_intensity','num_pix','pix_value','pix_freq'])
+	    .columns(["row_index","some_id","protein","image","zone","segment","area","std_dev","std_error","avg_pix_intensity","num_pix","pix_value","pix_freq"])
+	    .size(40)
 
 	view_data.render();
 });
