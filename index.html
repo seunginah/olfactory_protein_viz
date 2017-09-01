@@ -33,7 +33,7 @@
 			print_txt = 'you have selected slice ' + txt;
 		    document.getElementById("desc_slice").innerHTML = print_txt;
 			// update image shown in PANE 2
-			img_path = './images/'+selected_protein+'/'+selected_protein+'_'+txt+'.jpg'
+			img_path = './images/'+selected_protein+'/Bmpr2_'+txt+'.jpg'
 		    document.getElementById("view_slice").src = img_path;
 		    // filter for all rows where slice 
 		    view_data.filter(function(d){return d.image == txt;});
