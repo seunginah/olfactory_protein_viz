@@ -74,6 +74,11 @@ th.aes:after {
   color: #0A416B;
   clear:both;
 }
+.kids {
+    display: inline-block;
+    padding: 2px;
+    white-space: normal;
+}
 .left, .center, .right{
   float:left;
   width:32%; 
