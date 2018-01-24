@@ -1,9 +1,13 @@
+import os
 import numpy as np
 
 from bokeh.models import ColumnDataSource
 from bokeh.io import show
 
 from surface3d import Surface3d
+
+
+sys.path.append(os.path.join(os.getcwd(), "olfactory_protein_viz"))
 from utils import read_full_csv, get_segment_coords
 
 
