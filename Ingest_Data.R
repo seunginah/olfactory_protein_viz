@@ -25,7 +25,7 @@ make_sheet_zone_data <- function(protein, sheet_data, sheet_name, zone) {
     print("Zone should be 'VZ', 'IZ', or 'DZ'")
     return(NULL)
   }
-  # Removing all empty columns
+  # Removing all empty colu mns
   data[data == ""] <- NA
   data <- data[,colSums(is.na(data))<nrow(data)]
   # Return NULL if the data set is empty
