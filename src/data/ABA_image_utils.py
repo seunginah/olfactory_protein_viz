@@ -14,7 +14,6 @@ from ecallen.ecallen import images as ecimg
 
 
 # http://help.brain-map.org/display/api/Downloading+an+Image
-
 # to download an image
 image_base = 'http://api.brain-map.org/api/v2/section_image_download'
 
