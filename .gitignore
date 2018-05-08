@@ -2,17 +2,24 @@
 *.pyc
 */__init__.py
 
-
+.idea/
 images/*
+data/*
+scratch/*
+notebooks/.ipynb_checkpoints/*
+
+scratch*
+
 *.DS_Store
 .gitignore
 *.docx
 *.Docx
 
+
+
 # History files
 .Rhistory
 .Rapp.history
-
 # Session Data files
 .RData
 
