@@ -26,6 +26,16 @@ def get_organism_image_params(organism):
     return image_params
 
 
+def get_image_name(img_file):
+    image_id = img_file.split('/')[-1].split('.jpg')[0]
+    if '_' in image_id:
+        image_id = image_id.split('_')
+        if 'processed' in image_id:
+            image_id.remove('processed')
+    image_id = image_id[0]
+    return image_id
+
+
 def get_image(image_id, image_params=None):
     q = image_base + '/' + str(image_id)
     if image_params is not None:
@@ -43,3 +53,14 @@ def save_image_locally(image_dir, image_id, image_num,  image_params=None):
     img = get_image(image_id, image_params=image_params)
     img.save(image_filepath)
     return image_filepath
+
+
+def save_processed_images(exp_dir, img_dict):
+    """
+    save images in an experiment directory
+    :param exp_dir: file path of experiment directory
+    :param img_dict: {filename: processed image}
+    :return:
+    """
+    # save them into a directory called "processed"
+    img_fname = os.path.join(exp_dir, str(experiment) + '_processed.jpg')

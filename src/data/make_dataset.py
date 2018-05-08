@@ -15,40 +15,6 @@ THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 DATA_DIR = os.path.join(THIS_DIR, '../', '../', 'data')
 
 
-# get the affine map for the 2D transformation
-section_image_id = 308604373
-tform_2d = ecimg.get_affine_2d(section_image_id)
-
-# get the affine map for the 3D transformation
-section_dataset_id = 308604125
-tform_3d = ecimg.get_affine_3d(section_dataset_id)
-
-print("t_form2d: ", tform_2d)
-print("t_form3d: ", tform_3d)
-
-section_image_id = 308604373
-section_dataset_id = 308604125
-
-# generate some random (x,y) pairs
-x_test_pix = np.random.randint(3000, 5000, 100)
-y_test_pix = np.random.randint(3000, 5000, 100)
-
-# retrieve + save all images belonging to a section data set (an experiment)
-section_data_set_id = 531477700
-all_image_ids = ecimg.get_all_section_image_ids(section_data_set_id)
-ecimg.save_section_image(section_image_id, 'sample_image.jpg')
-
-
-
-# calculate the PIR coordinates using ecallen
-pir_from_ecallen = ecimg.xy_to_pir(x_test_pix, y_test_pix, section_dataset_id,
-                                   section_image_id)
-
-img = imread('sample_image.jpg')
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-ax.imshow(img)
-plt.show()
 
 
 if __name__ == '__main__':
@@ -66,7 +32,8 @@ if __name__ == '__main__':
 
     # for each image, pull the raw image and save the file location in the image df
     organism_dir = os.path.join(DATA_DIR, organism)
-    organism_params = get_organism_image_params(organism)
+
+    # organism_params = get_organism_image_params(organism)
 
     # for each gene of interest
     image_paths = {image_id:None for image_id in img_ids}
@@ -93,6 +60,7 @@ if __name__ == '__main__':
             section_ct = 1
             for image_id in exp_imgs:
                 # get image with params
-                img_path = save_image_locally(exp_dir, image_id, section_ct, image_params=organism_params)
+                # img_path = save_image_locally(exp_dir, image_id, section_ct, image_params=organism_params)
+                img_path = save_image_locally(exp_dir, image_id, section_ct)
                 image_paths[image_id] = img_path
                 section_ct += 1

@@ -26,7 +26,26 @@ c_base = "rma::criteria"
 # rows
 all_rows = "num_rows=all"
 
-def get_genes(organism='DevMouse'):
+
+def get_organisms():
+    all_products_query = "http://api.brain-map.org/api/v2/data/Organism/query.json"
+    r = requests.get(all_products_query).json()
+    # put the results into a pandas dataframe
+    return pd.DataFrame(r['msg'])
+
+
+def get_products(atlases_only=True):
+    all_products_query = "http://api.brain-map.org/api/v2/data/Product/query.json"
+    r = requests.get(all_products_query).json()
+    # put the results into a pandas dataframe
+    df = pd.DataFrame(r['msg'])
+    if atlases_only:
+        return df[df['resource'].str.contains('Atlas')]
+    else:
+        return df
+
+
+def get_genes(organism='DevMouse', by='abbreviation'):
     u = "\nusage: get_genes(organism) \norganism = 'all' | <organism abbreviation name> "
     # model
     genes_base = "http://api.brain-map.org/api/v2/data/Gene/query.json"
@@ -39,7 +58,7 @@ def get_genes(organism='DevMouse'):
         # only return the first 50 rows of the query
         q = genes_base
     else:
-        organism_c = "products[abbreviation$eq'" + organism + "']"
+        organism_c = "products[" + by + "$eq'" + organism + "']"
         criteria = ",".join([genes_model_c, c_base, organism_c])
         rows =  "&" + all_rows
         q = genes_base + "?" + criteria + rows
@@ -174,8 +193,8 @@ def get_experiments_and_images(gene_aliases, organism='DevMouse'):
             all_experiments = gene_experiments
         else:
             all_experiments = pd.concat([all_experiments, gene_experiments])
-    all_experiments = all_experiments.rename(index=str,
-                                             columns={'id': 'experiment_id'})
+    if all_experiments is not None:
+        all_experiments = all_experiments.rename(index=str, columns={'id': 'experiment_id'})
 
     # collect all the image data for all experiments pertaining to the 3 proteins
     experiment_ids = all_experiments.experiment_id.values.tolist()

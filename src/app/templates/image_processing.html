@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.js"></script>
+
+</head>
+<body>
+<H1>Image Processing</H1>
+<p>
+    Once we collect the raw data, we need to get it into proper format for segmentation:
+</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message[1] }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <!--1. select product-->
+        <form action="" method="post">
+            <p>
+                {{ form.gene.label }} {{form.gene()}}
+            </p>
+            <br><br>
+            <input type="submit" value="Gene Selected"/>
+        </form>
+        <!--2. select genes-->
+        <form action="" method="post">
+            <p>
+                {{ form.experiment.label }} {{ form.experiment }}
+            </p>
+            <br><br>
+            <input type="submit" value="Experiment Selected"/>
+        </form>
+        <!--2. select genes-->
+        <form action="" method="post">
+            <p>
+                {{ form.image.label }} {{ form.image }}
+            </p>
+            <br><br>
+            <input type="submit" value="Image Selected"/>
+        </form>
+
+{{ script|safe }}
+{{ div|safe }}
+
+</body>
+</html>

@@ -2,39 +2,33 @@
 <head>
     <link rel="stylesheet" href="../static/css/styles.css">
     <link
-            href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.14.min.css"
-            rel="stylesheet" type="text/css">
+        href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.css"
+        rel="stylesheet" type="text/css">
     <link
-            href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.14.min.css"
-            rel="stylesheet" type="text/css">
+        href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.css"
+        rel="stylesheet" type="text/css">
 
     <!-- import our javascript utils-->
     <script src="../static/js/dashboard_utils.js"></script>
 
     <!-- import bokeh + bokeh widget libraries -->
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.14.min.js"></script>
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.14.min.js"></script>
-
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.js"></script>
 </head>
 <body>
 
 <!-- Tab links -->
 <div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'test_tab')">TESTING</button>
     <button class="tablinks" onclick="openTab(event, 'ingestion_tab')">Data Ingestion</button>
-  <button class="tablinks" onclick="openTab(event, 'experiment_tab')">Experiment Setup</button>
-  <button class="tablinks" onclick="openTab(event, 'analysis_tab')">Image Analysis</button>
-  <button class="tablinks" onclick="openTab(event, 'viz_tab')">Visualization</button>
+    <button class="tablinks" onclick="openTab(event, 'processing_tab')">Image Processing</button>
+    <button class="tablinks" onclick="openTab(event, 'registration_tab')">Image Registration</button>
+    <button class="tablinks" onclick="openTab(event, 'analysis_tab')">Image Analysis</button>
+    <button class="tablinks" onclick="openTab(event, 'viz_tab')">Visualization</button>
 </div>
 
 <!-- Tab content -->
 <!--Create buttons to open specific tab content. All <div> elements with class="tabcontent" are hidden by default. -->
 <!--When the user clicks on a button - it will open the tab content that "matches" this button.-->
-<div id="test_tab" class="tabcontent">
-    <!-- src is the source from app.py; @app.route('/<src>') -->
-    <iframe src="testing" name="test_iframe" width="100%" height="100%"></iframe>
-    <a href="testing" target="test_iframe"></a>
-</div>
 
 <div id="ingestion_tab" class="tabcontent">
     <!-- src is the source from app.py; @app.route('/<src>') -->
@@ -42,10 +36,16 @@
     <a href="ingestion" target="ingestion_iframe"></a>
 </div>
 
-<div id="experiment_tab" class="tabcontent">
+<div id="processing_tab" class="tabcontent">
     <!-- src is the source from app.py; @app.route('/<src>') -->
-    <iframe src="experiment" name="experiment_iframe" width="100%" height="100%"></iframe>
-    <a href="experiment" target="experiment_iframe"></a>
+    <iframe src="image_processing" name="processing_iframe" width="100%" height="100%"></iframe>
+    <a href="image_processing" target="processing_iframe"></a>
+</div>
+
+<div id="registration_tab" class="tabcontent">
+    <!-- src is the source from app.py; @app.route('/<src>') -->
+    <iframe src="image_registration" name="registration_iframe" width="100%" height="100%"></iframe>
+    <a href="image_registration" target="registration_iframe"></a>
 </div>
 
 <div id="analysis_tab" class="tabcontent">
