@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from skimage.io import imread, imsave
 
 sys.path.append('/Users/mm40108/projects/datadays17/olfactory_protein_viz/src/')
+from data.ABA_image_utils import get_image_name
 from ecallen.ecallen import images as ecimg
 from visualization.make_plots import plot_expanding_rows, plot_channels
 
