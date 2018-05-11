@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -122,13 +123,13 @@ def get_pixels_for_experiment(processed_dir, metadata_dir, get_pickled=True):
     if get_pickled:
         pickles = [file for file in os.listdir(metadata_dir) if file.endswith('.pkl')]
         for pickle_fname in pickles:
-            img_data[pickle_fname] = try_to_load_as_pickled_object_or_None(pickle_fname)
+            pickle_fpath = os.path.join(metadata_dir, pickle_fname)
+            img_id = pickle_fname.split('_rprops.pkl')[0]
+            img_data[img_id] = try_to_load_as_pickled_object_or_None(pickle_fpath)
     else:
+        print('reading images in ', processed_dir)
         processed_imgs = read_images_in(processed_dir) # {img_fpath:img}
         for img_fpath, img in processed_imgs.items():
-            #img_fpath = '/Users/mm40108/projects/datadays17/olfactory_protein_viz/data/DevMouse/Bmpr2/100042306/processed/100878706_processed.jpg'
-            #img = processed_imgs[img_fpath]
-
             # get image id
             img_id = get_image_name(img_fpath)
             print('extracting x,y coords and other image info from', img_id)
@@ -146,32 +147,107 @@ def get_pixels_for_experiment(processed_dir, metadata_dir, get_pickled=True):
             img_data[img_id] = img_props
     return img_data
 
-#
-# def register_experiment(exp_dir, exp_subdir='processed'):
-#     # get processed images
-#     exp_pix = get_pixels_for_experiment(os.path.join(exp_dir, exp_subdir))
-#
-#     for img_id, img_props in exp_pix.items():
-#
+
+def validate_experiment_images(exp_pix):
+    if exp_pix is None:
+        return {}
+    tmp = exp_pix
+    for img_id in exp_pix.keys():
+        try:
+            int(img_id)
+        except ValueError as e:
+            tmp.pop(img_id)
+    return exp_pix[tmp.keys()]
+
+
+def register_experiment(exp_dir, rprops_dir, get_pickled):
+    # get processed images
+    exp_pix = get_pixels_for_experiment(exp_dir, rprops_dir, get_pickled=get_pickled)
+    exp_df = None
+    for img_id, img_props in exp_pix.items():
+        print('registering image', img_id)
+        # read image pixels
+        tmp = pd.DataFrame(img_props)
+        tmp['image_id'] = img_id
+        if exp_df is None:
+            exp_df = tmp
+        else:
+            exp_df = pd.concat([exp_df, tmp])
+    return validate_experiment_images(exp_df)
+
+
+def check_existing_pkl(fpath):
+    if any([True for f in os.listdir(fpath) if f.endswith('.pkl')]):
+        print('looks like there are already pickles here.. skipping')
+        return True, fpath
+    else:
+        return False, None
 
 
 
+def get_pixels_for_gene(gene_dir, rprops_dir, get_pickled=True, skip_already_pickled=True):
+    exp_dirs = [os.path.join(gene_dir, f, 'processed') for f in os.listdir(gene_dir)
+                 if not f.startswith('.')]
+    rprops_dirs = [os.path.join(rprops_dir, f, 'processed') for f in os.listdir(rprops_dir)
+                 if not f.startswith('.')]
+    gene_df = None
+    for exp_dir, rprops_dir in zip(exp_dirs, rprops_dirs):
+        print('\texperiment: ', exp_dir, '\n\timage properties:', rprops_dir)
+        # some experiments may already have pickles, so don't do them
+        already_exists, pkl_fpath = check_existing_pkl(rprops_dir)
+        if skip_already_pickled:
+            if already_exists:
+                tmp = register_experiment(exp_dir, rprops_dir, get_pickled=True)
+            else:
+                print('registering experiment', exp_dir)
+                tmp = register_experiment(exp_dir, rprops_dir, get_pickled=False)
+        else:
+            print('registering experiment', exp_dir)
+            tmp = register_experiment(exp_dir, rprops_dir, get_pickled)
+        # read image pixels
+        tmp['experiment_id'] = exp_dir.split('/')[exp_dir.split('/').index('processed')-1]
+        if gene_df is None:
+            gene_df = tmp
+        else:
+            gene_df = pd.concat([gene_df, tmp])
+    return gene_df
 
 
 if __name__ == '__main__':
-    # lets process images from one experiment
-    organism = 'DevMouse'
-    protein = 'Bmpr2'
-    experiment = '100042306'
-    processed_dir = os.path.join(DATA_DIR, organism, protein, experiment, 'processed')
-    rprops_dir = os.path.join(METADATA_DIR, organism, protein, experiment, 'processed')
+    product = 'DevMouse'
+    # gene = 'Bmpr2'
+    # gene_dir = os.path.join(DATA_DIR, product, gene)
+    # rprops_dir = os.path.join(METADATA_DIR, product, gene)
+    # bmpr2 = get_pixels_for_gene(gene_dir, rprops_dir, get_pickled=False, skip_already_pickled=True)
+    # pickle_fname = os.path.join(rprops_dir, 'Bmpr2_rprops.pkl')
+    # save_as_pickled_object(bmpr2, pickle_fname)
 
-    # write
-    img_props = get_pixels_for_experiment(processed_dir, rprops_dir, get_pickled=False)
-    # read
-    img_props = get_pixels_for_experiment(processed_dir, rprops_dir, get_pickled=False)
+    ## DONE
+    # gene = 'Cdh5'
+    # gene_dir = os.path.join(DATA_DIR, product, gene)
+    # rprops_dir = os.path.join(METADATA_DIR, product, gene)
+    # cdh5 = get_pixels_for_gene(gene_dir, rprops_dir, get_pickled=False, skip_already_pickled=True)
 
-    # img_dict = read_images_in(processed_dir)
+    ## PARTIAL
+    gene = 'Robo2'
+    gene_dir = os.path.join(DATA_DIR, product, gene)
+    rprops_dir = os.path.join(METADATA_DIR, product, gene)
+    robo2 = get_pixels_for_gene(gene_dir, rprops_dir, get_pickled=False, skip_already_pickled=True)
+    pickle_fname = os.path.join(rprops_dir, 'Robo2_rprops.pkl')
+    save_as_pickled_object(robo2, pickle_fname)
+
+
+    # # lets process images from one experiment
+    # experiment = '100042306'
+    # processed_dir = os.path.join(DATA_DIR, product, gene, experiment, 'processed')
+    # rprops_dir = os.path.join(METADATA_DIR, product, gene, experiment, 'processed')
+
+    # # write
+    # img_props = get_pixels_for_experiment(processed_dir, rprops_dir, get_pickled=False)
+    # # read
+    # img_props = get_pixels_for_experiment(processed_dir, rprops_dir, get_pickled=True)
+    #
+    # # img_dict = read_images_in(processed_dir)
     #
     # img_file = '/Users/mm40108/projects/datadays17/olfactory_protein_viz/data/DevMouse/Bmpr2/100042306/processed/100878706_processed.jpg'
     # img = img_dict[img_file]
