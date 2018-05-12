@@ -10,10 +10,60 @@ from data.ABA_image_utils import get_image, get_organism_image_params, save_imag
 
 THIS_DIR = "/Users/mm40108/projects/datadays17/olfactory_protein_viz/src/data"
 DATA_DIR = "/Users/mm40108/projects/datadays17/olfactory_protein_viz/data"
+METADATA_DIR = "/Users/mm40108/projects/datadays17/olfactory_protein_viz/metadata"
 
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 DATA_DIR = os.path.join(THIS_DIR, '../', '../', 'data')
 
+
+
+def fix_processed_names(exp_dir, processed_dir):
+    exp_imgs = [i for i in os.listdir(exp_dir) if i.endswith('.jpg')]
+    img_rprops = [i for i in os.listdir(processed_dir) if i.endswith('.pkl')]
+    d = {}
+    for fname in exp_imgs:
+        f = fname.split('.jpg')[0]
+        img_num = f.split('_')[0]
+        img_id = f.split('_')[1]
+        d[img_num] = img_id
+    print(d)
+
+    for fname in img_rprops:
+        print(fname)
+        img_num = fname.split('_')[0]
+        img_id = d[img_num]
+        img_suf = fname.split('_')[1]
+        newfname = img_id + '_' + img_suf
+        print(newfname)
+        old_file = os.path.join(processed_dir, fname)
+        new_file = os.path.join(processed_dir, newfname)
+        os.rename(old_file, new_file)
+
+    return None
+
+
+
+
+
+fix_cdh5 = ['100056407', '100056766', '100058480', '100058500', '100072907', '100078477', '100082796', '100084794', '77931975']
+for exp in fix_cdh5:
+    exp_dir = os.path.join(DATA_DIR, 'DevMouse', 'Cdh5', exp)
+    processed_dir = os.path.join(METADATA_DIR, 'DevMouse', 'Cdh5', exp, 'processed')
+    fix_processed_names(exp_dir, processed_dir)
+
+fix_bmpr2 = ['100042432', '100046444', '100046631', '100057140', '100057296', '100081744', '69529382']
+for exp in fix_bmpr2:
+    exp_dir = os.path.join(DATA_DIR, 'DevMouse', 'Bmpr2', exp)
+    processed_dir = os.path.join(METADATA_DIR, 'DevMouse', 'Bmpr2', exp, 'processed')
+    fix_processed_names(exp_dir, processed_dir)
+
+
+
+fix_robo2 = [i for i in os.listdir(os.path.join(DATA_DIR, 'DevMouse', 'Robo2')) if not i.startswith('.')]
+for exp in fix_robo2:
+    exp_dir = os.path.join(DATA_DIR, 'DevMouse', 'Robo2', exp)
+    processed_dir = os.path.join(METADATA_DIR, 'DevMouse', 'Robo2', exp, 'processed')
+    fix_processed_names(exp_dir, processed_dir)
 
 
 

@@ -176,6 +176,7 @@ def register_experiment(exp_dir, rprops_dir, get_pickled):
     return validate_experiment_images(exp_df)
 
 
+
 def check_existing_pkl(fpath):
     if any([True for f in os.listdir(fpath) if f.endswith('.pkl')]):
         print('looks like there are already pickles here.. skipping')
